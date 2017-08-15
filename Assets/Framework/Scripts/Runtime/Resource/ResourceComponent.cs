@@ -439,6 +439,7 @@ namespace UnityGameFramework.Runtime
 
         private void Start()
         {
+
             BaseComponent baseComponent = GameEntry.GetComponent<BaseComponent>();
             if (baseComponent == null)
             {
