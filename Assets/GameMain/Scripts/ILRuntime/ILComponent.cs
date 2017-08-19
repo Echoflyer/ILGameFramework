@@ -13,7 +13,7 @@ using UnityGameFramework.Runtime;
 using ILRuntime.Runtime.Enviorment;
 using System.IO;
 
-namespace GameMain
+namespace ILFramework
 {
     public class ILComponent : GameFrameworkComponent
     {

@@ -1,4 +1,4 @@
-﻿namespace GameMain
+﻿namespace ILFramework
 {
     /// <summary>
     /// 游戏入口。

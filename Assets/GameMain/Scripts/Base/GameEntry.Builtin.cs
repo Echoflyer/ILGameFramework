@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace GameMain
+namespace ILFramework
 {
     /// <summary>
     /// 游戏入口。

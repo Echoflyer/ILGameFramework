@@ -12,7 +12,7 @@ using UnityEngine;
 using GameFramework.Procedure;
 using GameFramework.Fsm;
 
-namespace GameMain
+namespace ILFramework
 {
     public class ProcedureStart : ProcedureBase
     {
