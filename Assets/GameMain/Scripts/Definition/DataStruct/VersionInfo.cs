@@ -10,6 +10,10 @@ namespace ILFramework
 {
     public class VersionInfo
     {
+        ///<summary>
+        ///路径
+        ///</summary>
+        public string Path{get;set;}
         /// <summary>
         /// 最新的游戏版本号
         /// </summary>
