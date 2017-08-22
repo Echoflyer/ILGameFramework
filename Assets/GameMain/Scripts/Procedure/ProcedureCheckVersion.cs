@@ -37,6 +37,7 @@ namespace ILFramework
         //     流程持有者。
         protected override void OnInit(IFsm<IProcedureManager> procedureOwner)
         {
+            base.OnInit(procedureOwner);
         }
         //
         // 摘要:
@@ -47,6 +48,7 @@ namespace ILFramework
         //     流程持有者。
         protected override void OnDestroy(IFsm<IProcedureManager> procedureOwner)
         {
+            base.OnDestroy(procedureOwner);
         }
         //
         // 摘要:
@@ -67,7 +69,7 @@ namespace ILFramework
             GameEntry.Event.Subscribe(UnityGameFramework.Runtime.EventId.ResourceUpdateFailure, OnResourceUpdateFailure);
             GameEntry.Event.Subscribe(UnityGameFramework.Runtime.EventId.ResourceUpdateSuccess, OnResourceUpdateSuccess);
             GameEntry.Event.Subscribe(UnityGameFramework.Runtime.EventId.ResourceUpdateAllComplete, OnResourceUpdateAllComplete);
-
+            
             CheckLocalFiles();
             CheckRemoteVersion();
         }
@@ -125,17 +127,21 @@ namespace ILFramework
             //解析xml
             string _responseXml = Utility.Converter.GetString(_ne.GetWebResponseBytes());
             VersionInfo _versionInfo= GetVersionInfoFromXml(_responseXml);
+            if (_versionInfo == null)
+                return;
             //检查版本
-            if(GameEntry.Resource.CheckVersionList(_versionInfo.LatestInternalResourceVersion)
-            ==GameFramework.Resource.CheckVersionListResult.NeedUpdate)
+            if (GameEntry.Resource.CheckVersionList(_versionInfo.LatestInternalResourceVersion)
+            == GameFramework.Resource.CheckVersionListResult.NeedUpdate)
             {
-                Log.Debug("准备更新："+_versionInfo.LatestInternalResourceVersion);
                 //不同版本 资源不同
-                GameEntry.Resource.UpdatePrefixUri+="/"+_versionInfo.Path;
-                GameEntry.Resource.UpdateVersionList(_versionInfo.VersionListLength,_versionInfo.VersionListHashCode,_versionInfo.VersionListZipLength,_versionInfo.VersionListZipHashCode);
+                GameEntry.Resource.UpdatePrefixUri += "/" + _versionInfo.Path;
+                GameEntry.Resource.UpdateVersionList(_versionInfo.VersionListLength, _versionInfo.VersionListHashCode, _versionInfo.VersionListZipLength, _versionInfo.VersionListZipHashCode);
             }
             else
+            {
                 Log.Debug("已是最新版本");
+                GameEntry.Resource.CheckResources();
+            }
         }
         private void OnWebRequestFailure(object sender, GameEventArgs e)
         {
@@ -144,39 +150,45 @@ namespace ILFramework
             {
                 return;
             }
+            Log.Error("web请求失败");
         }
         private void OnVersionListUpdateSuccess(object sender, GameEventArgs e)
         {
-            Log.Debug("版本更新完毕--检查资源");
-            //VersionListUpdateSuccessEventArgs ne=(VersionListUpdateSuccessEventArgs)e;
             //检查资源
             GameEntry.Resource.CheckResources();
         }
         private void OnVersionListUpdateFailure(object sender, GameEventArgs e)
         {
-
+            Log.Error("版本检查失败，请检查网络");
         }
         private void OnResourceCheckComplete(object sender,GameEventArgs e)
         {
             Log.Debug("资源检查完毕--更新资源");
+            ResourceCheckCompleteEventArgs _ne = (ResourceCheckCompleteEventArgs)e;
             //更新资源
-            GameEntry.Resource.UpdateResources();        
+            if (_ne.UpdateCount > 0)
+                GameEntry.Resource.UpdateResources();
+            else
+            {
+                //切换下一个状态
+            }
         }
         private void OnResourceUpdateStart(object sender,GameEventArgs e)
         {    
-            Log.Debug("开始--更新资源");
+          //  Log.Debug("开始--更新资源");
         }
         private void OnResourceUpdateFailure(object sender,GameEventArgs e)
         {    
-            Log.Debug("OnResourceUpdateFailure--更新资源");    
+          //  Log.Debug("OnResourceUpdateFailure--更新资源");    
         }
         private void OnResourceUpdateSuccess(object sender,GameEventArgs e)
         {
-            Log.Debug("OnResourceUpdateSuccess--更新资源");    
+        //    Log.Debug("OnResourceUpdateSuccess--更新资源");    
         }
         private void OnResourceUpdateAllComplete(object sender,GameEventArgs e)
-        {    
-             Log.Debug("OnResourceUpdateAllComplete--更新资源");
+        {
+            Log.Debug("所有资源更新完毕-->再检查资源");
+            GameEntry.Resource.CheckResources();
         }
         #endregion
 
@@ -238,19 +250,27 @@ namespace ILFramework
                 default:
                 break;
             }
-             XmlDocument _doc = new XmlDocument();
-            _doc.LoadXml(_xml);
-            XmlElement _versionNode = _doc.DocumentElement;
-            //游戏版本号
-            _info.LatestGameVersion= _versionNode.GetAttribute("ApplicableGameVersion");
-            //资源版本号
-            _info.LatestInternalResourceVersion= int.Parse(_versionNode.GetAttribute("LatestInternalResourceVersion"));
-            XmlElement _nodePlatform= (XmlElement)_versionNode.SelectSingleNode(_nodeName);
-            _info.VersionListHashCode=int.Parse(_nodePlatform.GetAttribute("HashCode"));
-            _info.VersionListLength=int.Parse(_nodePlatform.GetAttribute("Length"));
-            _info.VersionListZipHashCode=int.Parse(_nodePlatform.GetAttribute("ZipHashCode"));
-            _info.VersionListZipLength=int.Parse(_nodePlatform.GetAttribute("ZipLength"));
-            return _info;
+            try
+            {
+                XmlDocument _doc = new XmlDocument();
+                _doc.LoadXml(_xml);
+                XmlElement _versionNode = _doc.DocumentElement;
+                //游戏版本号
+                _info.LatestGameVersion = _versionNode.GetAttribute("ApplicableGameVersion");
+                //资源版本号
+                _info.LatestInternalResourceVersion = int.Parse(_versionNode.GetAttribute("LatestInternalResourceVersion"));
+                XmlElement _nodePlatform = (XmlElement)_versionNode.SelectSingleNode(_nodeName);
+                _info.VersionListHashCode = int.Parse(_nodePlatform.GetAttribute("HashCode"));
+                _info.VersionListLength = int.Parse(_nodePlatform.GetAttribute("Length"));
+                _info.VersionListZipHashCode = int.Parse(_nodePlatform.GetAttribute("ZipHashCode"));
+                _info.VersionListZipLength = int.Parse(_nodePlatform.GetAttribute("ZipLength"));
+                return _info;
+            }
+            catch (System.Xml.XmlException e)
+            {
+                Log.Error("xml解析失败:" + e.ToString());
+                return null;
+            }
         }
 #endregion
 

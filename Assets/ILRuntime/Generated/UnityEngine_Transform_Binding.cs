@@ -1498,7 +1498,7 @@ namespace ILRuntime.Runtime.Generated
             instance_of_this_method = (UnityEngine.Transform)typeof(UnityEngine.Transform).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
             __intp.Free(ptr_of_this_method);
 
-            var result_of_this_method = instance_of_this_method.FindChild(name);
+            var result_of_this_method = instance_of_this_method.Find(name);
 
             object obj_result_of_this_method = result_of_this_method;
             if(obj_result_of_this_method is CrossBindingAdaptorType)

@@ -2,9 +2,11 @@
 <UnityGameFramework>
   <AssetBundleCollection>
     <AssetBundles>
+      <AssetBundle Name="Cubes" LoadType="0" Packed="False" />
       <AssetBundle Name="Scenes" LoadType="0" Packed="False" />
     </AssetBundles>
     <Assets>
+      <Asset Guid="d570e855d95d14742908a8a5c98f264e" AssetBundleName="Cubes" />
       <Asset Guid="eacd500fa01710f4ba08565e4acc68a3" AssetBundleName="Scenes" />
     </Assets>
   </AssetBundleCollection>

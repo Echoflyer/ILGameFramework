@@ -164,7 +164,7 @@ namespace ILRuntime.Runtime.Generated
             StackObject* ptr_of_this_method;
             StackObject* __ret = ILIntepreter.Minus(__esp, 0);
 
-            var result_of_this_method = UnityEngine.Debug.logger;
+            var result_of_this_method = UnityEngine.Debug.unityLogger;
 
             object obj_result_of_this_method = result_of_this_method;
             if(obj_result_of_this_method is CrossBindingAdaptorType)
