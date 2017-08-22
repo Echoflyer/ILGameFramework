@@ -23,8 +23,8 @@ namespace ILRuntime.Runtime.Generated
             Type[] args;
             Type type = typeof(UnityEngine.Debug);
             args = new Type[]{};
-            method = type.GetMethod("get_logger", flag, null, args, null);
-            app.RegisterCLRMethodRedirection(method, get_logger_0);
+            method = type.GetMethod("get_unityLogger", flag, null, args, null);
+            app.RegisterCLRMethodRedirection(method, get_unityLogger_0);
             args = new Type[]{typeof(UnityEngine.Vector3), typeof(UnityEngine.Vector3), typeof(UnityEngine.Color), typeof(System.Single), typeof(System.Boolean)};
             method = type.GetMethod("DrawLine", flag, null, args, null);
             app.RegisterCLRMethodRedirection(method, DrawLine_1);
@@ -158,7 +158,7 @@ namespace ILRuntime.Runtime.Generated
         }
 
 
-        static StackObject* get_logger_0(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        static StackObject* get_unityLogger_0(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
             StackObject* ptr_of_this_method;

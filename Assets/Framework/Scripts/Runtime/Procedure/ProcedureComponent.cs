@@ -96,6 +96,47 @@ namespace UnityGameFramework.Runtime
             m_ProcedureManager.StartProcedure(m_EntranceProcedure.GetType());
         }
 
+#region 热更新流程
+        public void HotfixProcedure(ProcedureBase[] _newProcedures, ProcedureBase _nextProcedure)
+        {
+            if (_nextProcedure==null||_newProcedures == null || _newProcedures.Length <= 0)
+                return;
+            StartCoroutine(UpdateProcedure(_newProcedures, _nextProcedure));
+        }
+
+        private IEnumerator UpdateProcedure(ProcedureBase[] _newProcedures, ProcedureBase _nextProcedure)
+        {
+            ProcedureBase[] procedures = new ProcedureBase[m_AvailableProcedureTypeNames.Length+ _newProcedures.Length];
+            for (int i = 0; i < m_AvailableProcedureTypeNames.Length; i++)
+            {
+                Type procedureType = Utility.Assembly.GetTypeWithinLoadedAssemblies(m_AvailableProcedureTypeNames[i]);
+                if (procedureType == null)
+                {
+                    Log.Error("Can not find procedure type '{0}'.", m_AvailableProcedureTypeNames[i]);
+                    yield break;
+                }
+
+                procedures[i] = (ProcedureBase)Activator.CreateInstance(procedureType);
+                if (procedures[i] == null)
+                {
+                    Log.Error("Can not create procedure instance '{0}'.", m_AvailableProcedureTypeNames[i]);
+                    yield break;
+                }
+            }
+            int _oldProceduresLength = m_AvailableProcedureTypeNames.Length;
+            for (int i = 0; i < _newProcedures.Length; i++)
+            {
+                procedures[_oldProceduresLength + i] = _newProcedures[i];
+            }
+            //销毁之前的流程
+            GameFrameworkEntry.GetModule<IFsmManager>().DestroyFsm<IProcedureManager>();
+            yield return new WaitForEndOfFrame();
+            m_ProcedureManager.Initialize(GameFrameworkEntry.GetModule<IFsmManager>(), procedures);
+            yield return new WaitForEndOfFrame();
+            m_ProcedureManager.StartProcedure(_nextProcedure.GetType());
+        }
+#endregion
+
         /// <summary>
         /// 是否存在流程。
         /// </summary>

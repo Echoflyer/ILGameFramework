@@ -51,9 +51,13 @@
         {
             return string.Format("Assets/GameMain/UI/UISounds/{0}.wav", assetName);
         }
-        public static string GetILRuntimeAsset(string assetName)
+        public static string GetILRuntimeDllAsset(string assetName)
         {
             return string.Format("Assets/GameMain/ILRuntime/{0}.dll.bytes",assetName);
+        }
+        public static string GetILRuntimePdbAsset(string assetName)
+        {
+            return string.Format("Assets/GameMain/ILRuntime/{0}.pdb.bytes", assetName);
         }
     }
 }

@@ -6,11 +6,8 @@
 // <time> #CREATETIME# </time>
 //-----------------------------------------------------------------------
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using GameFramework.Procedure;
-using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 using GameFramework.Fsm;
 using System.IO;
 using GameFramework;
@@ -25,6 +22,8 @@ namespace ILFramework
         #region 属性
         private readonly string _VersionFileName = "version.dat";
         private readonly string _VersionFileUrl = "GameResourceVersion.xml";
+        //资源检查完毕
+        private bool _IsResourceCheckComplete = false;
         #endregion
 
         #region 重写函数
@@ -69,7 +68,9 @@ namespace ILFramework
             GameEntry.Event.Subscribe(UnityGameFramework.Runtime.EventId.ResourceUpdateFailure, OnResourceUpdateFailure);
             GameEntry.Event.Subscribe(UnityGameFramework.Runtime.EventId.ResourceUpdateSuccess, OnResourceUpdateSuccess);
             GameEntry.Event.Subscribe(UnityGameFramework.Runtime.EventId.ResourceUpdateAllComplete, OnResourceUpdateAllComplete);
-            
+
+            _IsResourceCheckComplete = false;
+
             CheckLocalFiles();
             CheckRemoteVersion();
         }
@@ -113,6 +114,9 @@ namespace ILFramework
         //     真实流逝时间，以秒为单位。
         protected override void OnUpdate(IFsm<IProcedureManager> procedureOwner, float elapseSeconds, float realElapseSeconds)
         {
+            base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
+            if (_IsResourceCheckComplete)
+                ChangeState<ProcedureLoadHotfix>(procedureOwner);
         }
         #endregion
 
@@ -163,14 +167,15 @@ namespace ILFramework
         }
         private void OnResourceCheckComplete(object sender,GameEventArgs e)
         {
-            Log.Debug("资源检查完毕--更新资源");
             ResourceCheckCompleteEventArgs _ne = (ResourceCheckCompleteEventArgs)e;
             //更新资源
             if (_ne.UpdateCount > 0)
                 GameEntry.Resource.UpdateResources();
             else
             {
+                Log.Debug("资源检查完毕--进入下一个状态");
                 //切换下一个状态
+                _IsResourceCheckComplete = true;
             }
         }
         private void OnResourceUpdateStart(object sender,GameEventArgs e)
@@ -187,8 +192,10 @@ namespace ILFramework
         }
         private void OnResourceUpdateAllComplete(object sender,GameEventArgs e)
         {
-            Log.Debug("所有资源更新完毕-->再检查资源");
-            GameEntry.Resource.CheckResources();
+            Log.Debug("所有资源更新完毕--切换下一个状态");
+            // GameEntry.Resource.CheckResources();
+            //切换下一个状态
+            _IsResourceCheckComplete = true;
         }
         #endregion
 

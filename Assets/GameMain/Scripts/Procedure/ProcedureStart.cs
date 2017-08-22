@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameFramework.Procedure;
 using GameFramework.Fsm;
+using GameFramework;
 
 namespace ILFramework
 {
@@ -34,6 +35,8 @@ namespace ILFramework
         //     流程持有者。
         protected override void OnEnter(IFsm<IProcedureManager> procedureOwner)
         {
+            base.OnEnter(procedureOwner);
+            Log.Debug("ProcedureStart--OnEnter");
         }
         //
         // 摘要:
@@ -72,7 +75,8 @@ namespace ILFramework
         //     真实流逝时间，以秒为单位。
         protected override void OnUpdate(IFsm<IProcedureManager> procedureOwner, float elapseSeconds, float realElapseSeconds)
         {
-
+            base.OnUpdate(procedureOwner,elapseSeconds,realElapseSeconds);
+            Log.Debug("ProcedureStart--OnUpdate");
         }
     }
 }

@@ -19,6 +19,7 @@ namespace ILFramework
         void Start()
         {
             InitBuiltinComponents();
+            InitCustomComponents();
         }
         
     }
