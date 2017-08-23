@@ -492,10 +492,6 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-#if UNITY_EDITOR
-            //编辑器强制为Packge模式-- 方便测试
-            m_ResourceMode = ResourceMode.Package;
-#endif
             SetResourceMode(m_ResourceMode);
             m_ResourceManager.SetDownloadManager(GameFrameworkEntry.GetModule<IDownloadManager>());
             m_ResourceManager.SetObjectPoolManager(GameFrameworkEntry.GetModule<IObjectPoolManager>());

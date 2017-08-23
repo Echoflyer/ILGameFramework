@@ -35,5 +35,5 @@ sysinfo.txt
 *.unitypackage
 
 # Hotfix bin obj
-/Hotfix/bin/
-/Hotfix/obj/
+Hotfix/bin/
+Hotfix/obj/

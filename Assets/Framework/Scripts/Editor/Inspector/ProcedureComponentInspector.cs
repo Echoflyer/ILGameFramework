@@ -51,6 +51,9 @@ namespace UnityGameFramework.Editor
                         foreach (string procedureTypeName in m_ProcedureTypeNames)
                         {
                             bool selected = m_CurrentAvailableProcedureTypeNames.Contains(procedureTypeName);
+                            //去掉IL的跨域集成的继承适配器
+                            if (procedureTypeName.EndsWith("+Adaptor"))
+                                continue;
                             if (selected != EditorGUILayout.ToggleLeft(procedureTypeName, selected))
                             {
                                 if (!selected)

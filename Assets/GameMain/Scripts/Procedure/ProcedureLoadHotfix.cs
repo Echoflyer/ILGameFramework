@@ -14,6 +14,8 @@ using GameFramework;
 using GameFramework.Event;
 using UnityGameFramework.Runtime;
 using GameFramework.Resource;
+using System.Reflection;
+using System;
 
 namespace ILFramework
 {
@@ -123,8 +125,29 @@ namespace ILFramework
 #region 增加流程
         private void LoadHatfixProcedure()
         {
-            ProcedureBase _hotfixProcedure = GameEntry._ILRuntime._AppDomain.Instantiate<ProcedureBase>("Hotfix.ProcedureHotfixStart", null);
-            GameEntry.Procedure.HotfixProcedure(new ProcedureBase[] { _hotfixProcedure }, _hotfixProcedure);
+            Type _type = GameEntry._ILRuntime._AppDomain.GetType("Hotfix.ProcedureForm").ReflectionType;
+            object _procedureForm = GameEntry._ILRuntime._AppDomain.Instantiate("Hotfix.ProcedureForm");
+            PropertyInfo _fiForms = _type.GetProperty("ProcedureForms");
+            PropertyInfo _fiStart = _type.GetProperty("ProcedureStart");
+            string[] _fromValue=(string[])_fiForms.GetValue(_procedureForm,null);
+            string _startValue= (string)_fiStart.GetValue(_procedureForm,null);
+
+            if (_fromValue == null || _startValue == null
+                || _fromValue.Length <= 0 || string.IsNullOrEmpty(_startValue))
+            {
+                Log.Error("无法增加热更新流程--热更新ProcedureForm参数不对");
+                return;
+            }
+
+            ProcedureBase[] _hotfixProcedure = new ProcedureBase[_fromValue.Length];
+            ProcedureBase _hotfixProcedureStart = null;
+            for (int i = 0; i < _fromValue.Length; i++)
+            {
+                _hotfixProcedure [i]= GameEntry._ILRuntime._AppDomain.Instantiate<ProcedureBase>(_fromValue[i], null);
+                if (_startValue == _fromValue[i])
+                    _hotfixProcedureStart = _hotfixProcedure[i];
+            }
+            GameEntry.Procedure.HotfixProcedure(_hotfixProcedure, _hotfixProcedureStart);
         }
 #endregion
 
