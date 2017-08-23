@@ -70,11 +70,10 @@ namespace ILFramework
             GameEntry.Event.Subscribe(UnityGameFramework.Runtime.EventId.ResourceUpdateAllComplete, OnResourceUpdateAllComplete);
 
             _IsResourceCheckComplete = false;
-
             CheckLocalFiles();
             CheckRemoteVersion();
         }
-        
+
         //
         // 摘要:
         //     /// 离开状态时调用。 ///
@@ -83,10 +82,10 @@ namespace ILFramework
         //   procedureOwner:
         //     流程持有者。
         //
-        //   isShutdown:
+        //   isShutdown:n
         //     是否是关闭状态机时触发。
         protected override void OnLeave(IFsm<IProcedureManager> procedureOwner, bool isShutdown)
-        {
+        { 
             GameEntry.Event.Unsubscribe(UnityGameFramework.Runtime.EventId.WebRequestSuccess, OnWebRequestSuccess);
             GameEntry.Event.Unsubscribe(UnityGameFramework.Runtime.EventId.WebRequestFailure, OnWebRequestFailure);
             GameEntry.Event.Unsubscribe(UnityGameFramework.Runtime.EventId.VersionListUpdateSuccess, OnVersionListUpdateSuccess);
@@ -96,7 +95,7 @@ namespace ILFramework
             GameEntry.Event.Unsubscribe(UnityGameFramework.Runtime.EventId.ResourceUpdateFailure, OnResourceUpdateFailure);
             GameEntry.Event.Unsubscribe(UnityGameFramework.Runtime.EventId.ResourceUpdateSuccess, OnResourceUpdateSuccess);
             GameEntry.Event.Unsubscribe(UnityGameFramework.Runtime.EventId.ResourceUpdateAllComplete, OnResourceUpdateAllComplete);
-            
+
             base.OnLeave(procedureOwner, isShutdown);
         }
         //
@@ -197,6 +196,7 @@ namespace ILFramework
             //切换下一个状态
             _IsResourceCheckComplete = true;
         }
+        
         #endregion
 
         #region 检查本地文件

@@ -15,8 +15,12 @@ using GameFramework;
 
 namespace ILFramework
 {
-    public class ProcedureStart : ProcedureBase
+    public class ProcedurePreload : ProcedureBase
     {
+        #region 属性
+#endregion
+
+        #region 重写函数
         //
         // 摘要:
         //     /// 状态销毁时调用。 ///
@@ -25,7 +29,9 @@ namespace ILFramework
         //   procedureOwner:
         //     流程持有者。
         protected override void OnDestroy(IFsm<IProcedureManager> procedureOwner)
-        { }
+        {
+            base.OnDestroy(procedureOwner);
+        }
         //
         // 摘要:
         //     /// 进入状态时调用。 ///
@@ -36,7 +42,6 @@ namespace ILFramework
         protected override void OnEnter(IFsm<IProcedureManager> procedureOwner)
         {
             base.OnEnter(procedureOwner);
-            Log.Debug("ProcedureStart--OnEnter");
         }
         //
         // 摘要:
@@ -47,6 +52,7 @@ namespace ILFramework
         //     流程持有者。
         protected override void OnInit(IFsm<IProcedureManager> procedureOwner)
         {
+            base.OnInit(procedureOwner);
         }
         //
         // 摘要:
@@ -59,7 +65,9 @@ namespace ILFramework
         //   isShutdown:
         //     是否是关闭状态机时触发。
         protected override void OnLeave(IFsm<IProcedureManager> procedureOwner, bool isShutdown)
-        { }
+        {
+            base.OnLeave(procedureOwner, isShutdown);
+        }
         //
         // 摘要:
         //     /// 状态轮询时调用。 ///
@@ -76,7 +84,13 @@ namespace ILFramework
         protected override void OnUpdate(IFsm<IProcedureManager> procedureOwner, float elapseSeconds, float realElapseSeconds)
         {
             base.OnUpdate(procedureOwner,elapseSeconds,realElapseSeconds);
-            Log.Debug("ProcedureStart--OnUpdate");
+
+            ChangeState<ProcedureLoadHotfix>(procedureOwner);
         }
+#endregion
+
+        #region 回调函数
+        #endregion
+
     }
 }

@@ -33,3 +33,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# Hotfix bin obj
+/Hotfix/bin/
+/Hotfix/obj/

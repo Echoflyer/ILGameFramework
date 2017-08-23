@@ -22,7 +22,6 @@ namespace Hotfix
             _go.AddComponent<UnityEngine.UI.Button>();
             _go.AddComponent<LineRenderer>();
             Log.Debug("Class1 OnEnter");
-            ChangeState<ILFramework.ProcedureStart>(procedureOwner);
       //    ChangeState<.ProcedureLaunch>(procedureOwner);
         }
 
