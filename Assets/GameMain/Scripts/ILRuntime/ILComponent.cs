@@ -66,9 +66,29 @@ namespace ILFramework
 
         void InitializeILRuntime()
         {
+
+            RegisterDelegate();
+            RegisterAdaptor();
+        }
+
+        //注册委托
+        private void RegisterDelegate()
+        {
+            _AppDomain.DelegateManager.RegisterMethodDelegate<System.Object, GameFramework.Event.GameEventArgs>();
+            _AppDomain.DelegateManager.RegisterDelegateConvertor<System.EventHandler<GameFramework.Event.GameEventArgs>>((act) =>
+            {
+                return new System.EventHandler<GameFramework.Event.GameEventArgs>((sender, e) =>
+                {
+                    ((System.Action<System.Object, GameFramework.Event.GameEventArgs>)act)(sender, e);
+                });
+            });
+        }
+        //注册继承适配器
+        private void RegisterAdaptor()
+        {
             //这里做一些ILRuntime的注册，HelloWorld示例暂时没有需要注册的
             _AppDomain.RegisterCrossBindingAdaptor(new ProcedureBaseAdaptor());
         }
-#endregion
+        #endregion
     }
 }

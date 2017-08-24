@@ -1,7 +1,7 @@
 ﻿using GameFramework.Fsm;
 using GameFramework.Procedure;
-using UnityEngine;
 using GameFramework;
+using ILFramework;
 
 namespace Hotfix
 {
@@ -16,13 +16,14 @@ namespace Hotfix
         //     流程持有者。
         protected override void OnEnter(IFsm<IProcedureManager> procedureOwner)
         {
-            Debug.Log("游戏版本:" + Application.version);
-            Debug.Log("Class 1 OnEnter");
-            GameObject _go = new GameObject("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-            _go.AddComponent<UnityEngine.UI.Button>();
-            _go.AddComponent<LineRenderer>();
+            GameEntry.Event.Subscribe(UnityGameFramework.Runtime.EventId.WebRequestStart, OnWebRequestStart);
+            GameEntry.Event.Subscribe(UnityGameFramework.Runtime.EventId.WebRequestSuccess, OnWebRequestSuccess);
+            GameEntry.Event.Subscribe(UnityGameFramework.Runtime.EventId.WebRequestFailure, OnWebRequestFailure);
+
+            GameEntry.WebRequest.AddWebRequest("https://www.baidu.com");
+
             Log.Debug("Class1 OnEnter");
-               ChangeState<ILFramework.ProcedureTest>(procedureOwner);
+          //     ChangeState<ILFramework.ProcedureTest>(procedureOwner);
         }
 
         //
@@ -37,6 +38,10 @@ namespace Hotfix
         //     是否是关闭状态机时触发。
         protected override void OnLeave(IFsm<IProcedureManager> procedureOwner, bool isShutdown)
         {
+            GameEntry.Event.Unsubscribe(UnityGameFramework.Runtime.EventId.WebRequestStart, OnWebRequestStart);
+            GameEntry.Event.Unsubscribe(UnityGameFramework.Runtime.EventId.WebRequestSuccess, OnWebRequestSuccess);
+            GameEntry.Event.Unsubscribe(UnityGameFramework.Runtime.EventId.WebRequestFailure, OnWebRequestFailure);
+
             Log.Debug("OnLeave Base Front!!");
             base.OnLeave(procedureOwner,isShutdown);
             Log.Debug("OnLeave Base Back!!");
@@ -44,8 +49,23 @@ namespace Hotfix
 
         protected override void OnUpdate(IFsm<IProcedureManager> procedureOwner, float elapseSeconds, float realElapseSeconds)
         {
-            Log.Debug("OnUpdate:" + elapseSeconds + "**" + realElapseSeconds);
+           // Log.Debug("OnUpdate:" + elapseSeconds + "**" + realElapseSeconds);
         }
 
+        private void OnWebRequestStart(object sender, GameFramework.Event.GameEventArgs e)
+        {
+            Log.Debug("ProcedureHotfixStart--OnWebRequestStart");
+        }
+        private void OnWebRequestSuccess(object sender, GameFramework.Event.GameEventArgs e)
+        {
+            Log.Debug("ProcedureHotfixStart--OnWebRequestSuccess");
+            UnityGameFramework.Runtime.WebRequestSuccessEventArgs _ne = (UnityGameFramework.Runtime.WebRequestSuccessEventArgs)e;
+            string _content = Utility.Converter.GetString(_ne.GetWebResponseBytes());
+            Log.Debug("ProcedureHotfixStart--OnWebRequestSuccess:"+ _content);
+        }
+        private void OnWebRequestFailure(object sender, GameFramework.Event.GameEventArgs e)
+        {
+            Log.Debug("ProcedureHotfixStart--OnWebRequestFailure");
+        }
     }
 }
