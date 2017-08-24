@@ -22,7 +22,7 @@ namespace Hotfix
             _go.AddComponent<UnityEngine.UI.Button>();
             _go.AddComponent<LineRenderer>();
             Log.Debug("Class1 OnEnter");
-      //    ChangeState<.ProcedureLaunch>(procedureOwner);
+               ChangeState<ILFramework.ProcedureTest>(procedureOwner);
         }
 
         //
@@ -37,7 +37,14 @@ namespace Hotfix
         //     是否是关闭状态机时触发。
         protected override void OnLeave(IFsm<IProcedureManager> procedureOwner, bool isShutdown)
         {
-            Debug.Log("Class 1 OnLeave");
+            Log.Debug("OnLeave Base Front!!");
+            base.OnLeave(procedureOwner,isShutdown);
+            Log.Debug("OnLeave Base Back!!");
+        }
+
+        protected override void OnUpdate(IFsm<IProcedureManager> procedureOwner, float elapseSeconds, float realElapseSeconds)
+        {
+            Log.Debug("OnUpdate:" + elapseSeconds + "**" + realElapseSeconds);
         }
 
     }

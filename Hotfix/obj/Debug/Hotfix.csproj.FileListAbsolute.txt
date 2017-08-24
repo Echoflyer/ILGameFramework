@@ -30,5 +30,4 @@ F:\UnityProjects\ILGameFramework\Hotfix\bin\Debug\UnityEngine.UI.xml
 F:\UnityProjects\ILGameFramework\Hotfix\bin\Debug\UnityEditor.xml
 F:\UnityProjects\ILGameFramework\Hotfix\bin\Debug\Assembly-CSharp.dll
 F:\UnityProjects\ILGameFramework\Hotfix\bin\Debug\GameFramework.dll
-F:\UnityProjects\ILGameFramework\Hotfix\bin\Debug\Assembly-CSharp.pdb
 F:\UnityProjects\ILGameFramework\Hotfix\obj\Debug\Hotfix.csprojResolveAssemblyReference.cache
