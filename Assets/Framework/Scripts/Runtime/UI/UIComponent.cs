@@ -9,6 +9,7 @@ using GameFramework;
 using GameFramework.ObjectPool;
 using GameFramework.Resource;
 using GameFramework.UI;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UnityGameFramework.Runtime
@@ -67,6 +68,9 @@ namespace UnityGameFramework.Runtime
 
         [SerializeField]
         private UIGroup[] m_UIGroups = null;
+
+        //热更新的UIFormLogic
+        Dictionary<int, System.Type> _HotfixUIFormLogic = null;
 
         /// <summary>
         /// 获取界面组数量。
@@ -152,14 +156,13 @@ namespace UnityGameFramework.Runtime
                 Log.Fatal("UI manager is invalid.");
                 return;
             }
-
             m_UIManager.OpenUIFormSuccess += OnOpenUIFormSuccess;
             m_UIManager.OpenUIFormFailure += OnOpenUIFormFailure;
             m_UIManager.OpenUIFormUpdate += OnOpenUIFormUpdate;
             m_UIManager.OpenUIFormDependencyAsset += OnOpenUIFormDependencyAsset;
             m_UIManager.CloseUIFormComplete += OnCloseUIFormComplete;
         }
-
+        
         private void Start()
         {
             BaseComponent baseComponent = GameEntry.GetComponent<BaseComponent>();
@@ -175,6 +178,8 @@ namespace UnityGameFramework.Runtime
                 Log.Fatal("Event component is invalid.");
                 return;
             }
+            //添加一个OnOpenUIFormInitStart的事件   用来做热更新加载的
+            m_EventComponent.Subscribe(EventId.OpenUIFormInitStart, OnOpenUIFormInitStart);
 
             if (baseComponent.EditorResourceMode)
             {
@@ -223,6 +228,31 @@ namespace UnityGameFramework.Runtime
                 }
             }
         }
+
+        #region 热更新动态添加UIFormLogic
+        //监听UI初始化的UIFormLogic
+        private void OnOpenUIFormInitStart(object sender, GameFramework.Event.GameEventArgs e)
+        {
+            if (_HotfixUIFormLogic == null)
+            {
+                Log.Warning("没有UI热更新脚本，或者_HotfixUIFormLogic没有初始化");
+                return;
+            }
+            OpenUIFormInitStartEvenArgs _ne = (OpenUIFormInitStartEvenArgs)e;
+            if (_ne.UIForm.GetComponent<UIFormLogic>() != null)
+                return;
+            if (_HotfixUIFormLogic.ContainsKey(_ne.SerialId))
+            {
+                _ne.UIForm.gameObject.AddComponent(_HotfixUIFormLogic[_ne.SerialId]);
+            }
+        }
+        //设置热更新所有的UIFormLogic
+        public void SetHotfixUIFormLogic(Dictionary<int, System.Type> _value)
+        {
+            _HotfixUIFormLogic = new Dictionary<int, System.Type>() ;
+            _HotfixUIFormLogic = _value;
+        }
+#endregion 
 
         /// <summary>
         /// 是否存在界面组。
@@ -408,7 +438,7 @@ namespace UnityGameFramework.Runtime
         /// 打开界面。
         /// </summary>
         /// <param name="uiFormAssetName">界面资源名称。</param>
-        /// <param name="uiGroupName">界面组名称。</param>
+        /// <param name="uiGroupName">界面组名称。</param>InternalOpenUIForm
         /// <returns>界面的序列编号。</returns>
         public int OpenUIForm(string uiFormAssetName, string uiGroupName)
         {

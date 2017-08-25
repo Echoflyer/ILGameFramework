@@ -131,6 +131,9 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
+            //第一次创建UIForm抛出事件  热更新加载UIFormLogic脚本
+            GameEntry.GetComponent<EventComponent>().FireNow(this,new OpenUIFormInitStartEvenArgs(this,serialId,uiFormAssetName,userData));
+
             m_UIFormLogic = GetComponent<UIFormLogic>();
             if (m_UIFormLogic == null)
             {

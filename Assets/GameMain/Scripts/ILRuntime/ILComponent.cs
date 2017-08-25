@@ -17,7 +17,7 @@ namespace ILFramework
 {
     public class ILComponent : GameFrameworkComponent
     {
-#region 接口
+        #region AppDomain接口
         public AppDomain _AppDomain
         {
             private set;
@@ -81,7 +81,8 @@ namespace ILFramework
                 {
                     ((System.Action<System.Object, GameFramework.Event.GameEventArgs>)act)(sender, e);
                 });
-            });
+            });
+
         }
         //注册继承适配器
         private void RegisterAdaptor()

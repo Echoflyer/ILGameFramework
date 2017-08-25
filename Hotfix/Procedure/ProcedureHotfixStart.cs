@@ -21,7 +21,9 @@ namespace Hotfix
             GameEntry.Event.Subscribe(UnityGameFramework.Runtime.EventId.WebRequestFailure, OnWebRequestFailure);
 
             GameEntry.WebRequest.AddWebRequest("https://www.baidu.com");
-
+            // UnityEngine.GameObject _go = new UnityEngine.GameObject();
+            // _go.AddComponent(System.Type.GetType(""));
+            
             Log.Debug("Class1 OnEnter");
           //     ChangeState<ILFramework.ProcedureTest>(procedureOwner);
         }

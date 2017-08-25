@@ -13,6 +13,11 @@ namespace UnityGameFramework.Runtime
     public enum EventId
     {
         /// <summary>
+        /// UIForm初始化事件。
+        /// </summary>
+        OpenUIFormInitStart,
+
+        /// <summary>
         /// 资源初始化完成事件。
         /// </summary>
         ResourceInitComplete,
