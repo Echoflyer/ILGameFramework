@@ -47,7 +47,7 @@ namespace UnityGameFramework.Runtime
         {
             get
             {
-                return gameObject.activeSelf;
+                return gameObject.activeSelf; 
             }
         }
 

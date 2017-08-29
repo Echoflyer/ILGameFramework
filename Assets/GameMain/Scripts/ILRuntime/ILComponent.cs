@@ -89,6 +89,8 @@ namespace ILFramework
         {
             //这里做一些ILRuntime的注册，HelloWorld示例暂时没有需要注册的
             _AppDomain.RegisterCrossBindingAdaptor(new ProcedureBaseAdaptor());
+            _AppDomain.RegisterCrossBindingAdaptor(new UIFormLogicAdaptor());
+            _AppDomain.RegisterCrossBindingAdaptor(new IDataRowAdaptor());
         }
         #endregion
     }

@@ -97,43 +97,25 @@ namespace UnityGameFramework.Runtime
         }
 
 #region 热更新流程
-        public void HotfixProcedure(ProcedureBase[] _newProcedures, ProcedureBase _nextProcedure)
+        public void HotfixProcedure(Type[] _newProceduresTypes, ProcedureBase[] _newProcedures, Type _nextProcedure)
         {
-            if (_nextProcedure==null||_newProcedures == null || _newProcedures.Length <= 0)
+            if (_newProceduresTypes==null||_nextProcedure == null || _newProcedures == null
+                || _newProceduresTypes .Length<=0|| _newProcedures.Length <= 0)
+            {
+                Log.Error("Hotfix params error!");
                 return;
-            StartCoroutine(UpdateProcedure(_newProcedures, _nextProcedure));
+            }
+            StartCoroutine(UpdateProcedure(_newProceduresTypes,_newProcedures, _nextProcedure));
         }
 
-        private IEnumerator UpdateProcedure(ProcedureBase[] _newProcedures, ProcedureBase _nextProcedure)
+        private IEnumerator UpdateProcedure(Type[] _newProceduresTypes, ProcedureBase[] _newProcedures, Type _nextProcedure)
         {
-            ProcedureBase[] procedures = new ProcedureBase[m_AvailableProcedureTypeNames.Length+ _newProcedures.Length];
-            for (int i = 0; i < m_AvailableProcedureTypeNames.Length; i++)
-            {
-                Type procedureType = Utility.Assembly.GetTypeWithinLoadedAssemblies(m_AvailableProcedureTypeNames[i]);
-                if (procedureType == null)
-                {
-                    Log.Error("Can not find procedure type '{0}'.", m_AvailableProcedureTypeNames[i]);
-                    yield break;
-                }
-
-                procedures[i] = (ProcedureBase)Activator.CreateInstance(procedureType);
-                if (procedures[i] == null)
-                {
-                    Log.Error("Can not create procedure instance '{0}'.", m_AvailableProcedureTypeNames[i]);
-                    yield break;
-                }
-            }
-            int _oldProceduresLength = m_AvailableProcedureTypeNames.Length;
-            for (int i = 0; i < _newProcedures.Length; i++)
-            {
-                procedures[_oldProceduresLength + i] = _newProcedures[i];
-            }
             //销毁之前的流程
             GameFrameworkEntry.GetModule<IFsmManager>().DestroyFsm<IProcedureManager>();
             yield return new WaitForEndOfFrame();
-            m_ProcedureManager.Initialize(GameFrameworkEntry.GetModule<IFsmManager>(), procedures);
+            m_ProcedureManager.HotfixInitialize(GameFrameworkEntry.GetModule<IFsmManager>(), _newProceduresTypes, _newProcedures);
             yield return new WaitForEndOfFrame();
-            m_ProcedureManager.StartProcedure(_nextProcedure.GetType());
+            m_ProcedureManager.StartProcedure(_nextProcedure);
         }
 #endregion
 

@@ -16,11 +16,10 @@ F:\UnityProjects\StarForce-master\Hotfix\obj\Debug\Hotfix.csprojResolveAssemblyR
 F:\UnityProjects\StarForce-master\Hotfix\obj\Debug\Hotfix.dll
 F:\UnityProjects\StarForce-master\Hotfix\obj\Debug\Hotfix.pdb
 F:\UnityProjects\StarForce-master\Hotfix\bin\Debug\Assembly-CSharp.pdb
-F:\UnityProjects\ILGameFramework\Hotfix\obj\Debug\Hotfix.csproj.CoreCompileInputs.cache
-F:\UnityProjects\ILGameFramework\Hotfix\obj\Debug\Hotfix.dll
-F:\UnityProjects\ILGameFramework\Hotfix\obj\Debug\Hotfix.pdb
 F:\UnityProjects\ILGameFramework\Hotfix\bin\Debug\Hotfix.dll
 F:\UnityProjects\ILGameFramework\Hotfix\bin\Debug\Hotfix.pdb
+F:\UnityProjects\ILGameFramework\Hotfix\bin\Debug\Assembly-CSharp.dll
+F:\UnityProjects\ILGameFramework\Hotfix\bin\Debug\GameFramework.dll
 F:\UnityProjects\ILGameFramework\Hotfix\bin\Debug\UnityEngine.dll
 F:\UnityProjects\ILGameFramework\Hotfix\bin\Debug\UnityEngine.UI.dll
 F:\UnityProjects\ILGameFramework\Hotfix\bin\Debug\UnityEditor.dll
@@ -28,6 +27,6 @@ F:\UnityProjects\ILGameFramework\Hotfix\bin\Debug\GameFramework.xml
 F:\UnityProjects\ILGameFramework\Hotfix\bin\Debug\UnityEngine.xml
 F:\UnityProjects\ILGameFramework\Hotfix\bin\Debug\UnityEngine.UI.xml
 F:\UnityProjects\ILGameFramework\Hotfix\bin\Debug\UnityEditor.xml
-F:\UnityProjects\ILGameFramework\Hotfix\bin\Debug\Assembly-CSharp.dll
-F:\UnityProjects\ILGameFramework\Hotfix\bin\Debug\GameFramework.dll
-F:\UnityProjects\ILGameFramework\Hotfix\obj\Debug\Hotfix.csprojResolveAssemblyReference.cache
+F:\UnityProjects\ILGameFramework\Hotfix\obj\Debug\Hotfix.csproj.CoreCompileInputs.cache
+F:\UnityProjects\ILGameFramework\Hotfix\obj\Debug\Hotfix.dll
+F:\UnityProjects\ILGameFramework\Hotfix\obj\Debug\Hotfix.pdb

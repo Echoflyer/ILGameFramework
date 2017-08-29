@@ -10,6 +10,7 @@ using ILRuntime.CLR.Method;
 
 public class ProcedureBaseAdaptor : CrossBindingAdaptor
 {
+
     public override Type BaseCLRType
     {
         get
@@ -25,10 +26,10 @@ public class ProcedureBaseAdaptor : CrossBindingAdaptor
             return typeof(Adaptor);
         }
     }
-
+    
     public override object CreateCLRInstance(ILRuntime.Runtime.Enviorment.AppDomain appdomain, ILTypeInstance instance)
     {
-        return new Adaptor(appdomain, instance);//创建一个新的实例
+        return new Adaptor(appdomain, instance); ;//创建一个新的实例
     }
 
     internal class Adaptor : ProcedureBase, CrossBindingAdaptorType
@@ -53,7 +54,7 @@ public class ProcedureBaseAdaptor : CrossBindingAdaptor
         }
 
         IMethod _mOnInit;
-        bool _isOnInitGot=false;
+        bool _isOnInitGot = false;
         bool _isOnInitInvoking = false;
         IMethod _mOnDestroy;
         bool _isOnDestroyGot = false;
@@ -204,7 +205,6 @@ public class ProcedureBaseAdaptor : CrossBindingAdaptor
             else
                 base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
         }
-
-
+        
     }
 }

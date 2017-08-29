@@ -1,7 +1,7 @@
 ﻿using GameFramework.Fsm;
-using GameFramework.Procedure;
 using GameFramework;
 using ILFramework;
+using GameFramework.Procedure;
 
 namespace Hotfix
 {
@@ -25,7 +25,6 @@ namespace Hotfix
             // _go.AddComponent(System.Type.GetType(""));
             
             Log.Debug("Class1 OnEnter");
-          //     ChangeState<ILFramework.ProcedureTest>(procedureOwner);
         }
 
         //
@@ -51,7 +50,9 @@ namespace Hotfix
 
         protected override void OnUpdate(IFsm<IProcedureManager> procedureOwner, float elapseSeconds, float realElapseSeconds)
         {
-           // Log.Debug("OnUpdate:" + elapseSeconds + "**" + realElapseSeconds);
+            // Log.Debug("OnUpdate:" + elapseSeconds + "**" + realElapseSeconds);
+            //切换UILogic状态
+            ChangeState(procedureOwner, typeof(ProcedureSetUILogic));
         }
 
         private void OnWebRequestStart(object sender, GameFramework.Event.GameEventArgs e)
@@ -69,5 +70,11 @@ namespace Hotfix
         {
             Log.Debug("ProcedureHotfixStart--OnWebRequestFailure");
         }
+
+        //public new System.Type GetType()
+        //{
+        //    return typeof(ProcedureHotfixStart);
+        //}
+
     }
 }

@@ -125,12 +125,15 @@ namespace ILFramework
 #region 增加流程
         private void LoadHatfixProcedure()
         {
+            //object _procedureForm = GameEntry._ILRuntime._AppDomain.Instantiate("Hotfix.ProcedureForm");
+            //Type _ttt = _procedureForm.GetType();
+            //GameEntry._ILRuntime._AppDomain.Invoke("Hotfix.ProcedureForm", "LoadProcedure", _procedureForm,null);
             Type _type = GameEntry._ILRuntime._AppDomain.GetType("Hotfix.ProcedureForm").ReflectionType;
             object _procedureForm = GameEntry._ILRuntime._AppDomain.Instantiate("Hotfix.ProcedureForm");
             PropertyInfo _fiForms = _type.GetProperty("ProcedureForms");
             PropertyInfo _fiStart = _type.GetProperty("ProcedureStart");
-            string[] _fromValue=(string[])_fiForms.GetValue(_procedureForm,null);
-            string _startValue= (string)_fiStart.GetValue(_procedureForm,null);
+            string[] _fromValue = (string[])_fiForms.GetValue(_procedureForm, null);
+            string _startValue = (string)_fiStart.GetValue(_procedureForm, null);
 
             if (_fromValue == null || _startValue == null
                 || _fromValue.Length <= 0 || string.IsNullOrEmpty(_startValue))
@@ -139,15 +142,19 @@ namespace ILFramework
                 return;
             }
 
+            Type[] _hotfixProcedureTypes = new Type[_fromValue.Length];
             ProcedureBase[] _hotfixProcedure = new ProcedureBase[_fromValue.Length];
-            ProcedureBase _hotfixProcedureStart = null;
+            Type _hotfixProcedureStart = null;
             for (int i = 0; i < _fromValue.Length; i++)
             {
-                _hotfixProcedure [i]= GameEntry._ILRuntime._AppDomain.Instantiate<ProcedureBase>(_fromValue[i], null);
+                Type _typeValue = GameEntry._ILRuntime._AppDomain.GetType(_fromValue[i]).ReflectionType;
+                _hotfixProcedure[i] = GameEntry._ILRuntime._AppDomain.Instantiate<ProcedureBase>(_fromValue[i], null);
+                _hotfixProcedureTypes[i] = _typeValue;
+
                 if (_startValue == _fromValue[i])
-                    _hotfixProcedureStart = _hotfixProcedure[i];
+                    _hotfixProcedureStart = _hotfixProcedureTypes[i];
             }
-            GameEntry.Procedure.HotfixProcedure(_hotfixProcedure, _hotfixProcedureStart);
+            GameEntry.Procedure.HotfixProcedure(_hotfixProcedureTypes,_hotfixProcedure, _hotfixProcedureStart);
         }
 #endregion
 

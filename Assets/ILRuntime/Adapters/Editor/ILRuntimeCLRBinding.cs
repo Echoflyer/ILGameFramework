@@ -11,6 +11,7 @@ public class ILRuntimeCLRBinding
     static void GenerateCLRBinding()
     {
         List<Type> types = new List<Type>();
+        types.Add(typeof(bool));
         types.Add(typeof(int));
         types.Add(typeof(float));
         types.Add(typeof(long));
@@ -26,6 +27,7 @@ public class ILRuntimeCLRBinding
         types.Add(typeof(RectTransform));
         types.Add(typeof(Time));
         types.Add(typeof(Debug));
+        types.Add(typeof(System.Type));
         //所有DLL内的类型的真实C#类型都是ILTypeInstance
         types.Add(typeof(List<ILRuntime.Runtime.Intepreter.ILTypeInstance>));
 
@@ -52,7 +54,7 @@ public class ILRuntimeCLRBinding
     {
         //这里需要注册所有热更DLL中用到的跨域继承Adapter，否则无法正确抓取引用
         domain.RegisterCrossBindingAdaptor(new ProcedureBaseAdaptor());
-        //domain.RegisterCrossBindingAdaptor(new CoroutineAdapter());
+      //  domain.RegisterCrossBindingAdaptor(new CoroutineAdapter());
         //domain.RegisterCrossBindingAdaptor(new InheritanceAdapter());
     }
 }

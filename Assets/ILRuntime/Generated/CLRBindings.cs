@@ -11,6 +11,7 @@ namespace ILRuntime.Runtime.Generated
         /// </summary>
         public static void Initialize(ILRuntime.Runtime.Enviorment.AppDomain app)
         {
+            System_Boolean_Binding.Register(app);
             System_Int32_Binding.Register(app);
             System_Single_Binding.Register(app);
             System_Int64_Binding.Register(app);
@@ -26,6 +27,7 @@ namespace ILRuntime.Runtime.Generated
             UnityEngine_RectTransform_Binding.Register(app);
             UnityEngine_Time_Binding.Register(app);
             UnityEngine_Debug_Binding.Register(app);
+            System_Type_Binding.Register(app);
             System_Collections_Generic_List_1_ILTypeInstance_Binding.Register(app);
         }
     }

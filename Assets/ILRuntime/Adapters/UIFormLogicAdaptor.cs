@@ -53,7 +53,6 @@ public class UIFormLogicAdaptor : CrossBindingAdaptor
 
         object[] param1 = new object[1];
         object[] param2 = new object[2];
-        object[] param3 = new object[3];
 
         IMethod _mOnInit;
         bool _isOnInitGot = false;
@@ -240,7 +239,7 @@ public class UIFormLogicAdaptor : CrossBindingAdaptor
         {
             if (!_isOnRefocusGot)
             {
-                _mOnRefocus = instance.Type.GetMethod("OnRefocus", 0);
+                _mOnRefocus = instance.Type.GetMethod("OnRefocus", 1);
                 _isOnRefocusGot = true;
             }
             if (_mOnRefocus != null && !_isOnRefocusInvoking)
@@ -263,7 +262,7 @@ public class UIFormLogicAdaptor : CrossBindingAdaptor
         {
             if (!_isOnUpdateGot)
             {
-                _mOnUpdate = instance.Type.GetMethod("OnUpdate", 0);
+                _mOnUpdate = instance.Type.GetMethod("OnUpdate", 2);
                 _isOnUpdateGot = true;
             }
             if (_mOnUpdate != null && !_isOnUpdateInvoking)
@@ -287,7 +286,7 @@ public class UIFormLogicAdaptor : CrossBindingAdaptor
         {
             if (!_isOnDepthChangedGot)
             {
-                _mOnDepthChanged = instance.Type.GetMethod("OnDepthChanged", 0);
+                _mOnDepthChanged = instance.Type.GetMethod("OnDepthChanged", 2);
                 _isOnDepthChangedGot = true;
             }
             if (_mOnDepthChanged != null && !_isOnDepthChangedInvoking)
